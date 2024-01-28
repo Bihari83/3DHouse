@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "370210280471",
+    "project_id": "dhouse-dc11a",
+    "storage_bucket": "dhouse-dc11a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370210280471:android:857a3de417ed71e151f852",
+        "android_client_info": {
+          "package_name": "com.example.final_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoOqSr-bZ2QSGe6NnFwwrH78ANXNRBpMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
