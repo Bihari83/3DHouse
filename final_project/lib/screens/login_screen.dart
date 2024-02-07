@@ -1,6 +1,8 @@
 import 'package:final_project/screens/home_screen.dart';
 import 'package:final_project/screens/registration_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -17,6 +19,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  //firebase
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     //email field
@@ -24,7 +29,17 @@ class _LoginScreenState extends State<LoginScreen> {
         autofocus: false,
         controller: emailController,
         keyboardType: TextInputType.emailAddress,
-        //validator: () {},
+        validator: (value) {
+          if (value!.isEmpty) {
+            return ("Please Enter Your Email");
+          }
+          // reg expression for email validation
+          if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+              .hasMatch(value)) {
+            return ("Please Enter a valid email");
+          }
+          return null;
+        },
         onSaved: (value) {
           emailController.text = value!;
         },
@@ -38,8 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-        )
-        );
+        ));
 
     //password field
     final passwordField = TextFormField(
@@ -47,7 +61,16 @@ class _LoginScreenState extends State<LoginScreen> {
         controller: passwordController,
         obscureText: true,
 
-        //validator: () {},
+        validator: (value) {
+          RegExp regex = RegExp(r'^.{6,}$');
+          if (value!.isEmpty) {
+            return ("Password is required for login");
+          }
+          if (!regex.hasMatch(value)) {
+            return ("Enter Valid Password(Min. 6 Character)");
+          }
+          return null;
+        },
         onSaved: (value) {
           passwordController.text = value!;
         },
@@ -61,30 +84,27 @@ class _LoginScreenState extends State<LoginScreen> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-        )
-        );
+        ));
 
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Color.fromARGB(255, 247, 247, 2),
+      color: const Color.fromARGB(255, 247, 247, 2),
       child: MaterialButton(
-        // ignore: prefer_const_constructors
-        padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        minWidth: MediaQuery.of(context).size.width,
-        onPressed: () {
-          Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
-        },
-        // ignore: prefer_const_constructors
-        child: Text(
-          "Login",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-        )),
+          // ignore: prefer_const_constructors
+          padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          minWidth: MediaQuery.of(context).size.width,
+          onPressed: () {
+            signIn(emailController.text, passwordController.text);
+          },
+          // ignore: prefer_const_constructors
+          child: Text(
+            "Login",
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+          )),
     );
-
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -99,38 +119,38 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children:<Widget>[
+                  children: <Widget>[
                     SizedBox(
-                      height: 200,
-                      child: Image.asset(
-                        "assets/logo.png",
-                        fit: BoxFit.contain,
-                      )),
-                    SizedBox(height: 45),
-                    emailField, 
-                    SizedBox(height: 25),
+                        height: 200,
+                        child: Image.asset(
+                          "assets/logo.png",
+                          fit: BoxFit.contain,
+                        )),
+                    const SizedBox(height: 45),
+                    emailField,
+                    const SizedBox(height: 25),
                     passwordField,
-                    SizedBox(height: 35),
+                    const SizedBox(height: 35),
                     loginButton,
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("Don't have an account? "),
+                        const Text("Don't have an account? "),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:(context)=>
-                                RegistrationScreen()));
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RegistrationScreen()));
                           },
-                          child: Text(
+                          child: const Text(
                             "SignUp",
                             style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600, 
-                              fontSize: 15),
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15),
                           ),
                         )
                       ],
@@ -144,4 +164,24 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  //login function
+  void signIn(String email, String password) async {
+    if(_formKey.currentState!.validate()) {
+      await _auth
+      .signInWithEmailAndPassword(email: email, password: password)
+      .then((uid) => {
+        Fluttertoast.showToast(msg: "Login Successful"),
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const HomeScreen())),
+      })
+      // ignore: body_might_complete_normally_catch_error
+      .catchError((e){
+        Fluttertoast.showToast(msg: e!.message);
+      });
+    }
+  }
+
+
+
 }
