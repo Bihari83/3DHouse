@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:final_project/screens/image_picker_screen.dart'; // Import the image picker screen
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:final_project/screens/image_picker_screen.dart';
+import 'package:final_project/screens/login_screen.dart'; // Import the login screen
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -43,6 +45,21 @@ class HomeScreen extends StatelessWidget {
                   );
                 },
                 child: Text("Pick an Image"),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              // Add a button to logout
+              ElevatedButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    (route) => false,
+                  );
+                },
+                child: const Text("Logout"),
               ),
             ],
           ),
