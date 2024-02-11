@@ -27,7 +27,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
 
-String? errorMessage; // Added declaration for errorMessage
+  String? errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -300,7 +300,7 @@ void signUp(String email, String password) async {
     Fluttertoast.showToast(msg: "Account created successfully :) ");
 
     Navigator.pushAndRemoveUntil(
-        (context),
+        context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
         (route) => false);
   }
