@@ -1,11 +1,15 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, library_private_types_in_public_api, use_key_in_widget_constructors, avoid_print
+// ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class ImagePickerScreen extends StatefulWidget {
+  const ImagePickerScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _ImagePickerScreenState createState() => _ImagePickerScreenState();
 }
 
@@ -14,6 +18,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   final picker = ImagePicker();
 
   Future getImageFromCamera() async {
+    // ignore: deprecated_member_use
     final pickedFile = await picker.getImage(source: ImageSource.camera);
 
     setState(() {
@@ -26,6 +31,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   }
 
   Future getImageFromGallery() async {
+    // ignore: deprecated_member_use
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
@@ -37,6 +43,25 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
     });
   }
 
+  Future<void> uploadImageToFirebase() async {
+    if (_image == null) {
+      print('No image selected.');
+      return;
+    }
+
+    try {
+      firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child('images')
+          .child('image_name.jpg');
+
+      await ref.putFile(_image!);
+      print('Image uploaded to Firebase Storage.');
+    } catch (e) {
+      print('Error uploading image to Firebase Storage: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,9 +69,18 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
         title: Text('Image Picker Demo'),
       ),
       body: Center(
-        child: _image == null
-            ? Text('No image selected.')
-            : Image.file(_image!),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _image == null
+                ? Text('No image selected.')
+                : Image.file(_image!),
+            ElevatedButton(
+              onPressed: uploadImageToFirebase,
+              child: Text('Upload'),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -54,13 +88,13 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
           FloatingActionButton(
             onPressed: getImageFromCamera,
             tooltip: 'Pick Image from Camera',
-            child: Icon(Icons.add_a_photo),
+            child: const Icon(Icons.add_a_photo),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           FloatingActionButton(
             onPressed: getImageFromGallery,
             tooltip: 'Pick Image from Gallery',
-            child: Icon(Icons.photo_library),
+            child: const Icon(Icons.photo_library),
           ),
         ],
       ),
