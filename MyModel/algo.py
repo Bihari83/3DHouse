@@ -1,69 +1,50 @@
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
 
-# Set up data generators for training, validation, and test datasets
-train_datagen = ImageDataGenerator(
-    rescale=1./255,
-    rotation_range=20,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True
-)
+# Load the input image
+img_rgb = cv2.imread(r'C:\Users\User\Desktop\Model\images\houseplan6.jpg')
+img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 
-train_generator = train_datagen.flow_from_directory(
-    'E:/DataSet/FDS/train',
-    target_size=(150, 150),
-    batch_size=32,
-    class_mode='categorical'
-)
+# List of template paths
+template_paths = [
+    r'C:\Users\User\Desktop\Model\images\temp1.jpg',
+    r'C:\Users\User\Desktop\Model\images\temp2.jpg',
+    r'C:\Users\User\Desktop\Model\images\temp3.jpg',
+    r'C:\Users\User\Desktop\Model\images\temp4.jpg',
+    r'C:\Users\User\Desktop\Model\images\temp5.jpg',
+    r'C:\Users\User\Desktop\Model\images\temp6.jpg',
+    r'C:\Users\User\Desktop\Model\images\temp7.jpg',
+    r'C:\Users\User\Desktop\Model\images\temp8.jpg',
+    r'C:\Users\User\Desktop\Model\images\temp9.jpg'
+    # Add more template paths as needed
+]
 
-valid_datagen = ImageDataGenerator(rescale=1./255)  # No augmentation for validation data
-valid_generator = valid_datagen.flow_from_directory(
-    'E:/DataSet/FDS/validation',
-    target_size=(150, 150),
-    batch_size=32,
-    class_mode='categorical'
-)
+# Loop through each template
+for template_path in template_paths:
+    # Load the template image
+    template = cv2.imread(template_path, 0)
+    if template is None:
+        print(f"Error: Unable to load template image '{template_path}'.")
+        continue
 
-test_datagen = ImageDataGenerator(rescale=1./255)  # No augmentation for test data
-test_generator = test_datagen.flow_from_directory(
-    'E:/DataSet/FDS/test',
-    target_size=(150, 150),
-    batch_size=32,
-    class_mode='categorical'
-)
+    # Get the dimensions of the template image
+    h, w = template.shape[::-1]
 
-# Build the model
-model = Sequential([
-    Conv2D(32, (3, 3), activation='relu', input_shape=(150, 150, 3)),
-    MaxPooling2D(2, 2),
-    Conv2D(64, (3, 3), activation='relu'),
-    MaxPooling2D(2, 2),
-    Conv2D(128, (3, 3), activation='relu'),
-    MaxPooling2D(2, 2),
-    Flatten(),
-    Dense(512, activation='relu'),
-    Dense(23, activation='softmax')  # 23 classes for your symbols
-])
+    # Perform template matching
+    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
 
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    # Define a threshold for matching
+    threshold = 0.8
 
-# Train the model
-history = model.fit(
-    train_generator,
-    steps_per_epoch=len(train_generator),
-    epochs=10,
-    validation_data=valid_generator,
-    validation_steps=len(valid_generator)
-)
+    # Find all locations where the match score is above the threshold
+    loc = np.where(res >= threshold)
 
-# Evaluate the model on the test data
-test_loss, test_acc = model.evaluate(test_generator, steps=len(test_generator))
-print("Test Accuracy:", test_acc)
+    # Draw rectangles around the matched areas
+    for pt in zip(*loc[::-1]):
+        cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
 
-# Save the model
-model.save('model.h5')
+# Display the matched image
+cv2.imshow("Matched image", img_rgb)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
