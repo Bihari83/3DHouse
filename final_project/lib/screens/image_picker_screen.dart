@@ -1,15 +1,13 @@
-// ignore_for_file: prefer_const_constructors, avoid_print
+// ignore_for_file: prefer_const_constructors, avoid_print, library_private_types_in_public_api
 
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class ImagePickerScreen extends StatefulWidget {
-  const ImagePickerScreen({super.key});
+  const ImagePickerScreen({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _ImagePickerScreenState createState() => _ImagePickerScreenState();
 }
 
@@ -43,30 +41,11 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
     });
   }
 
-  Future<void> uploadImageToFirebase() async {
-    if (_image == null) {
-      print('No image selected.');
-      return;
-    }
-
-    try {
-      firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-          .ref()
-          .child('images')
-          .child('image_name.jpg');
-
-      await ref.putFile(_image!);
-      print('Image uploaded to Firebase Storage.');
-    } catch (e) {
-      print('Error uploading image to Firebase Storage: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image Picker Demo'),
+        title: Text('Pick an Image'),
       ),
       body: Center(
         child: Column(
@@ -75,10 +54,6 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
             _image == null
                 ? Text('No image selected.')
                 : Image.file(_image!),
-            ElevatedButton(
-              onPressed: uploadImageToFirebase,
-              child: Text('Upload'),
-            ),
           ],
         ),
       ),
