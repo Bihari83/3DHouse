@@ -1,8 +1,10 @@
-// ignore_for_file: prefer_const_constructors, avoid_print, library_private_types_in_public_api
+// ignore_for_file: prefer_const_constructors, avoid_print, deprecated_member_use, library_private_types_in_public_api
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class ImagePickerScreen extends StatefulWidget {
   const ImagePickerScreen({Key? key}) : super(key: key);
@@ -16,7 +18,6 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   final picker = ImagePicker();
 
   Future getImageFromCamera() async {
-    // ignore: deprecated_member_use
     final pickedFile = await picker.getImage(source: ImageSource.camera);
 
     setState(() {
@@ -29,7 +30,6 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   }
 
   Future getImageFromGallery() async {
-    // ignore: deprecated_member_use
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
@@ -39,6 +39,30 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
         print('No image selected.');
       }
     });
+  }
+
+  void uploadImage() async {
+    if (_image == null) {
+      print('No image selected.');
+      return;
+    }
+
+    final url = Uri.parse("http://127.0.0.1:4000/upload");
+    final request = http.MultipartRequest("POST", url);
+
+    request.files.add(await http.MultipartFile.fromPath('image', _image!.path));
+
+    try {
+      final response = await request.send();
+      if (response.statusCode == 200) {
+        final responseJson = jsonDecode(await response.stream.bytesToString());
+        print(responseJson['message']);
+      } else {
+        print('Error uploading image: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+    }
   }
 
   @override
@@ -51,9 +75,11 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _image == null
-                ? Text('No image selected.')
-                : Image.file(_image!),
+            _image == null ? Text('No image selected.') : Image.file(_image!),
+            ElevatedButton(
+              onPressed: uploadImage,
+              child: Text('Upload'),
+            ),
           ],
         ),
       ),
