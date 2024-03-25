@@ -2,9 +2,17 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
+# Function to resize image to a specific width and height
+def resize_image(image, width, height):
+    return cv2.resize(image, (width, height))
+
 # Load the input image
 img_rgb = cv2.imread(r'C:\Users\User\Desktop\Model\images\houseplan6.jpg')
 img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+
+# Define the desired width and height for output images
+output_width = 800
+output_height = 600
 
 # List of template paths
 template_paths = [
@@ -52,7 +60,10 @@ for template_path in template_paths:
     for pt in zip(*loc[::-1]):
         cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
 
-# Display the matched image
-cv2.imshow("Matched image", img_rgb)
+# Resize the final matched image to the desired output width and height
+img_rgb_resized = resize_image(img_rgb, output_width, output_height)
+
+# Display the resized matched image
+cv2.imshow("Matched image", img_rgb_resized)
 cv2.waitKey(0)
 cv2.destroyAllWindows()

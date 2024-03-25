@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_print, deprecated_member_use, library_private_types_in_public_api
+// ignore_for_file: avoid_print, deprecated_member_use, library_private_types_in_public_api, unused_import
 
 import 'dart:convert';
 import 'dart:io';
@@ -41,27 +41,30 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
     });
   }
 
-  void uploadImage() async {
+  Future<void> uploadImage() async {
     if (_image == null) {
       print('No image selected.');
       return;
     }
 
-    final url = Uri.parse("http://127.0.0.1:4000/upload");
-    final request = http.MultipartRequest("POST", url);
-
+    final uri = Uri.parse("https://32f9-112-134-33-122.ngrok-free.app/upload");
+    final request = http.MultipartRequest("POST", uri);
     request.files.add(await http.MultipartFile.fromPath('image', _image!.path));
 
     try {
-      final response = await request.send();
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+
       if (response.statusCode == 200) {
-        final responseJson = jsonDecode(await response.stream.bytesToString());
-        print(responseJson['message']);
+        // Handle success response
+        print('Image uploaded successfully.');
       } else {
-        print('Error uploading image: ${response.statusCode}');
+        // Handle error response
+        print('Error uploading image: ${response.body}');
       }
     } catch (e) {
-      print('Error uploading image: $e');
+      // Handle any exceptions
+      print('Exception uploading image: $e');
     }
   }
 
@@ -69,17 +72,18 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pick an Image'),
+        title: const Text('Pick an Image'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _image == null ? Text('No image selected.') : Image.file(_image!),
-            ElevatedButton(
-              onPressed: uploadImage,
-              child: Text('Upload'),
-            ),
+            _image == null ? const Text('No image selected.') : Image.file(_image!),
+            if (_image != null) // Conditionally render the upload button
+              ElevatedButton(
+                onPressed: uploadImage,
+                child: const Text('Upload'),
+              ),
           ],
         ),
       ),
