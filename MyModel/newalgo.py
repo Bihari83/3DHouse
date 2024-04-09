@@ -169,3 +169,82 @@
 # # Save the model using the native Keras format
 # model.save('symbol_detection_model.keras')  # Add the .keras extension
 
+import os
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+# Define paths to your dataset
+base_dir = 'E:/DataSet/FDS'
+train_dir = os.path.join(base_dir, 'Train')
+validation_dir = os.path.join(base_dir, 'Validation')
+test_dir = os.path.join(base_dir, 'Test')
+
+# Parameters
+batch_size = 64
+image_size = (150, 150)
+
+# Define data generators
+train_datagen = ImageDataGenerator(rescale=1./255)
+validation_datagen = ImageDataGenerator(rescale=1./255)
+test_datagen = ImageDataGenerator(rescale=1./255)
+
+train_generator = train_datagen.flow_from_directory(
+    train_dir,
+    target_size=image_size,
+    batch_size=batch_size,
+    class_mode='categorical',
+    shuffle=True)
+
+validation_generator = validation_datagen.flow_from_directory(
+    validation_dir,
+    target_size=image_size,
+    batch_size=batch_size,
+    class_mode='categorical')
+
+test_generator = test_datagen.flow_from_directory(
+    test_dir,
+    target_size=image_size,
+    batch_size=batch_size,
+    class_mode='categorical')
+
+# Determine the number of classes
+num_classes = len(train_generator.class_indices)
+
+# Define the CNN model
+model = Sequential([
+    Conv2D(32, (3, 3), activation='relu', input_shape=(150, 150, 3)),
+    MaxPooling2D((2, 2)),
+    Conv2D(64, (3, 3), activation='relu'),
+    MaxPooling2D((2, 2)),
+    Conv2D(128, (3, 3), activation='relu'),
+    MaxPooling2D((2, 2)),
+    Flatten(),
+    Dense(512, activation='relu'),
+    Dense(num_classes, activation='softmax')
+])
+
+# Compile the model
+model.compile(optimizer='adam',
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
+
+# Print model summary
+model.summary()
+
+# Train the model
+history = model.fit(
+    train_generator,
+    steps_per_epoch=train_generator.samples // batch_size,
+    epochs=10,
+    validation_data=validation_generator,
+    validation_steps=validation_generator.samples // batch_size
+)
+
+# Evaluate the model on the test data
+test_loss, test_accuracy = model.evaluate(test_generator)
+print('Test loss:', test_loss)
+print('Test accuracy:', test_accuracy)
+
+# Save the model
+model.save('symbol_detection_model.h5')
