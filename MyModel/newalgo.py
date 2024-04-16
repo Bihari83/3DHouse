@@ -176,100 +176,77 @@
 # # Save the model
 # model.save('symbol_detection_model.h5')
 
-import os
-import numpy as np
 import tensorflow as tf
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
-from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, img_to_array
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 
-# Constants
-IMAGE_SIZE = (150, 150)
-BATCH_SIZE = 32
-NUM_CLASSES = 23
-NUM_EPOCHS = 20
+# Define directories for train, validation, and test data
+train_dir = r'E:\DataSet\FDS\Train'
+validation_dir = r'E:\DataSet\FDS\Validation'
+test_dir = r'E:\DataSet\FDS\Test'
 
-# Data paths
-train_dir = 'E:/DataSet/FDS/Train'
-val_dir = 'E:/DataSet/FDS/Validation'
-test_dir = 'E:/DataSet/FDS/Test'
+# Define image dimensions and batch size
+img_width, img_height = 150, 150
+batch_size = 32
 
-# Data augmentation and preprocessing
-train_datagen = ImageDataGenerator(rescale=1./255,
-                                   rotation_range=20,
-                                   width_shift_range=0.2,
-                                   height_shift_range=0.2,
-                                   shear_range=0.2,
-                                   zoom_range=0.2,
-                                   horizontal_flip=True,
-                                   fill_mode='nearest')
+# Create ImageDataGenerator instances for train, validation, and test data
+train_datagen = ImageDataGenerator(rescale=1.0/255)
+validation_datagen = ImageDataGenerator(rescale=1.0/255)
+test_datagen = ImageDataGenerator(rescale=1.0/255)
 
-val_datagen = ImageDataGenerator(rescale=1./255)
+train_generator = train_datagen.flow_from_directory(
+    train_dir,
+    target_size=(img_width, img_height),
+    batch_size=batch_size,
+    class_mode='categorical'
+)
 
-train_generator = train_datagen.flow_from_directory(train_dir,
-                                                    target_size=IMAGE_SIZE,
-                                                    batch_size=BATCH_SIZE,
-                                                    class_mode='categorical')
+validation_generator = validation_datagen.flow_from_directory(
+    validation_dir,
+    target_size=(img_width, img_height),
+    batch_size=batch_size,
+    class_mode='categorical'
+)
 
-val_generator = val_datagen.flow_from_directory(val_dir,
-                                                target_size=IMAGE_SIZE,
-                                                batch_size=BATCH_SIZE,
-                                                class_mode='categorical')
+test_generator = test_datagen.flow_from_directory(
+    test_dir,
+    target_size=(img_width, img_height),
+    batch_size=batch_size,
+    class_mode='categorical'
+)
 
-# Model definition
+# Define the CNN model
 model = Sequential([
-    Conv2D(32, (3, 3), activation='relu', input_shape=(IMAGE_SIZE[0], IMAGE_SIZE[1], 3)),
-    MaxPooling2D(2, 2),
+    Conv2D(32, (3, 3), activation='relu', input_shape=(img_width, img_height, 3)),
+    MaxPooling2D((2, 2)),
     Conv2D(64, (3, 3), activation='relu'),
-    MaxPooling2D(2, 2),
+    MaxPooling2D((2, 2)),
     Conv2D(128, (3, 3), activation='relu'),
-    MaxPooling2D(2, 2),
+    MaxPooling2D((2, 2)),
+    Conv2D(128, (3, 3), activation='relu'),
+    MaxPooling2D((2, 2)),
     Flatten(),
-    Dropout(0.5),
     Dense(512, activation='relu'),
-    Dense(NUM_CLASSES, activation='softmax')
+    Dense(23, activation='softmax')  # Assuming 23 classes
 ])
 
+# Compile the model
 model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-# Training
-history = model.fit(train_generator,
-                    steps_per_epoch=train_generator.samples // BATCH_SIZE,
-                    epochs=NUM_EPOCHS,
-                    validation_data=val_generator,
-                    validation_steps=val_generator.samples // BATCH_SIZE)
+# Train the model
+history = model.fit(
+    train_generator,
+    steps_per_epoch=train_generator.samples // batch_size,
+    epochs=20,
+    validation_data=validation_generator,
+    validation_steps=validation_generator.samples // batch_size
+)
 
-# Load test images
-test_images = []
-test_labels = []
-
-# Iterate over each image file in the test directory
-for filename in os.listdir(test_dir):
-    # Construct the full path to the image
-    image_path = os.path.join(test_dir, filename)
-    
-    # Load the image and resize it to the desired input size
-    image = load_img(image_path, target_size=IMAGE_SIZE)
-    
-    # Convert the image to a numpy array and scale its values
-    image_array = img_to_array(image) / 255.0
-    
-    # Add the image array to the list of test images
-    test_images.append(image_array)
-    
-    # Extract the label from the filename (assuming filename format: "label_imageID.jpg")
-    label = filename.split('_')[0]
-    test_labels.append(label)
-
-# Convert the lists of images and labels to numpy arrays
-test_images = np.array(test_images)
-test_labels = np.array(test_labels)
-
-# Convert labels to one-hot encoding
-test_labels_one_hot = tf.keras.utils.to_categorical(test_labels, NUM_CLASSES)
-
-# Evaluate the model on the test set
-test_loss, test_accuracy = model.evaluate(test_images, test_labels_one_hot)
+# Evaluate the model on test data
+test_loss, test_accuracy = model.evaluate(test_generator)
+print("Test Loss:", test_loss)
 print("Test Accuracy:", test_accuracy)
+
