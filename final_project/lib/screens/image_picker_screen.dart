@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:final_project/screens/EmptyPage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -41,11 +42,43 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
     });
   }
 
-  Future<void> uploadImage() async {
+  // Future<void> uploadImage() async {
+  //   if (_image == null) {
+  //     print('No image selected.');
+  //     return;
+  //   }
+
+  //   final uri = Uri.parse("https://32f9-112-134-33-122.ngrok-free.app/upload");
+  //   final request = http.MultipartRequest("POST", uri);
+  //   request.files.add(await http.MultipartFile.fromPath('image', _image!.path));
+
+  //   try {
+  //     final streamedResponse = await request.send();
+  //     final response = await http.Response.fromStream(streamedResponse);
+
+  //     if (response.statusCode == 200) {
+  //       // Handle success response
+  //       print('Image uploaded successfully.');
+  //     } else {
+  //       // Handle error response
+  //       print('Error uploading image: ${response.body}');
+  //     }
+  //   } catch (e) {
+  //     // Handle any exceptions
+  //     print('Exception uploading image: $e');
+  //   }
+  // }
+
+  Future<void> uploadImage(BuildContext context) async {
     if (_image == null) {
       print('No image selected.');
       return;
     }
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => EmptyPage()),
+    );
 
     final uri = Uri.parse("https://32f9-112-134-33-122.ngrok-free.app/upload");
     final request = http.MultipartRequest("POST", uri);
@@ -78,12 +111,22 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _image == null ? const Text('No image selected.') : Image.file(_image!),
+            _image == null
+                ? const Text('No image selected.')
+                : Image.file(_image!),
             if (_image != null) // Conditionally render the upload button
               ElevatedButton(
-                onPressed: uploadImage,
+                onPressed: () {
+                  uploadImage(
+                      context); // Call uploadImage within an anonymous function
+                },
                 child: const Text('Upload'),
               ),
+
+            // ElevatedButton(
+            //   onPressed: uploadImage,
+            //   child: const Text('Upload'),
+            // ),
           ],
         ),
       ),
