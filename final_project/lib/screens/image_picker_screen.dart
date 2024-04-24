@@ -220,6 +220,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
