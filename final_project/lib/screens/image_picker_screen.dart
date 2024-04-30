@@ -69,41 +69,92 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   }
 
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pick an Image'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _image == null ? const Text('No image selected.') : Image.file(_image!),
-            if (_image != null) // Conditionally render the upload button
-              ElevatedButton(
-                onPressed: uploadImage,
-                child: const Text('Upload'),
-              ),
-          ],
-        ),
-      ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Pick an Image'),
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             _image == null ? const Text('No image selected.') : Image.file(_image!),
+//             if (_image != null) // Conditionally render the upload button
+//               ElevatedButton(
+//                 onPressed: uploadImage,
+//                 child: const Text('Upload'),
+//               ),
+//           ],
+//         ),
+//       ),
+//       floatingActionButton: Row(
+//         mainAxisAlignment: MainAxisAlignment.end,
+//         children: [
+//           FloatingActionButton(
+//             onPressed: getImageFromCamera,
+//             tooltip: 'Pick Image from Camera',
+//             child: const Icon(Icons.add_a_photo),
+//           ),
+//           const SizedBox(width: 10),
+//           FloatingActionButton(
+//             onPressed: getImageFromGallery,
+//             tooltip: 'Pick Image from Gallery',
+//             child: const Icon(Icons.photo_library),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Pick an Image'),
+    ),
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          FloatingActionButton(
-            onPressed: getImageFromCamera,
-            tooltip: 'Pick Image from Camera',
-            child: const Icon(Icons.add_a_photo),
-          ),
-          const SizedBox(width: 10),
-          FloatingActionButton(
-            onPressed: getImageFromGallery,
-            tooltip: 'Pick Image from Gallery',
-            child: const Icon(Icons.photo_library),
-          ),
+          _image == null ? const Text('No image selected.') : Image.file(_image!),
+          if (_image != null) // Conditionally render the upload button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: uploadImage,
+                  child: const Text('Upload'),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    // Implement your logic for the new button here
+                  },
+                  child: const Text('Develop'),
+                ),
+              ],
+            ),
         ],
       ),
-    );
-  }
+    ),
+    floatingActionButton: Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        FloatingActionButton(
+          onPressed: getImageFromCamera,
+          tooltip: 'Pick Image from Camera',
+          child: const Icon(Icons.add_a_photo),
+        ),
+        const SizedBox(width: 10),
+        FloatingActionButton(
+          onPressed: getImageFromGallery,
+          tooltip: 'Pick Image from Gallery',
+          child: const Icon(Icons.photo_library),
+        ),
+      ],
+    ),
+  );
+}
 }
