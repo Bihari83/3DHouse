@@ -26,4 +26,8 @@ plugins {
     id "com.android.application" version "7.3.0" apply false
 }
 
-include ":app"
+include ":app", ":unity-classes"
+
+
+include ":unityLibrary"
+project(":unityLibrary").projectDir = file("./unityLibrary")
