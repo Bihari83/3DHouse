@@ -41,3 +41,55 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Unity generated files
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+
+# MemoryCaptures can get excessive in size.
+# They also could contain sensitive data if memory snapshot profiling is enabled.
+/[Mm]emoryCaptures/
+
+# Asset meta data should only be ignored when the corresponding asset is also ignored
+#  by Unity (e.g. when using .gitignore or when a directory is excluded from versioning)
+!/[Aa]ssets/**/*.meta
+
+# Auto-generated Unity files
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+
+# Unity3D generated meta files
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Unity3D auto-generated folder
+__pycache__/
+# Unity3D Trash folder which might appear on any disk or drive
+[Tt]emp/
+[Ll]ibrary/
+
+# Unity3D crash dump files
+*.stackdump
+
+# Visual Studio Code generated .vscode folder
+.vscode/
+
+# macOS folder attributes
+.DS_Store
