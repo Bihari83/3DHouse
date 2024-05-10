@@ -182,7 +182,7 @@ def save_process(image_path, predicted_symbol):
         file.write(f"Image Path: {image_path}, Predicted Symbol: {predicted_symbol}\n")
 
 # Example usage
-image_path = r'E:\GitHub\3DHouse\Server\uploadedimages\IMG-20240324-WA0007.jpg' 
+image_path = r'E:\DataSet\FDS\Test\img\m001.jpg' 
 predicted_symbol = detect_symbols(image_path)
 print("Predicted Symbol:", predicted_symbol)
 save_process(image_path, predicted_symbol)
