@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Welcome"),
+        title: const Text("BlueprintToLife"),
         centerTitle: true,
       ),
       body: Center(
@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                "Welcome Back",
+                "Welcome",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(
