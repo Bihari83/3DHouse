@@ -13,7 +13,9 @@ This is an Android mobile application that enable users to get their house 3D vi
 
 # Technologies Used:
 **Frontend**: Flutter - Dart
+
 **Backend**: Python OpenCV , Flask ngrok
+
 **Database**: Firebase
 
 
