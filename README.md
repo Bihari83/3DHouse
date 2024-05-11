@@ -8,5 +8,6 @@ This is an Android mobile application that enable users to get their house 3D vi
 # Install Dependencies and run the project
 
 **For Frontend** - 'cd final_project'  'flutter run'
+
 **For server** - 'cd Server' 'python app.py' 
 
