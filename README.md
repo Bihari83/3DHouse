@@ -9,12 +9,13 @@ This is an Android mobile application that enable users to get their house 3D vi
 
 **For Frontend** - `cd final_project`  `flutter run`
 
-**For server** - `cd Server`  `python app.py`
+**For server** - `cd Server` `pip install opencv-python` `python app.py`
 
 # Technologies Used:
-**Frontend**: Flutter - Dart
 
-**Backend**: Python OpenCV , Flask ngrok
+**Frontend**: Flutter - Dart , Unity , C#
+
+**Backend**: Python OpenCV , Flask ngrok 
 
 **Database**: Firebase
 
