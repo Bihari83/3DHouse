@@ -326,7 +326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 463607cc3fa8d4e6eb8ee6a99700b297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateAmount: {x: 0, y: 0, z: 0}
 --- !u!1 &1697799934 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3885988342589118689, guid: 6ca7c2a9e2bb4bc4e95a6a4298bc4ea7, type: 3}
@@ -384,6 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateAmount: {x: 0, y: 0, z: 0}
+  zoomSpeed: 0.1
 --- !u!114 &1697799939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,6 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateAmount: {x: 0, y: 0, z: 0}
+  zoomSpeed: 0.1
 --- !u!114 &1697799940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,6 +411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateAmount: {x: 0, y: 0, z: 0}
+  zoomSpeed: 0.1
 --- !u!114 &1697799941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +425,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateAmount: {x: 0, y: 0, z: 0}
+  zoomSpeed: 0.1
 --- !u!114 &1697799942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,6 +439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateAmount: {x: 0, y: 0, z: 0}
+  zoomSpeed: 0.1
 --- !u!114 &1697799943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,6 +453,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateAmount: {x: 0, y: 0, z: 0}
+  zoomSpeed: 0.1
+--- !u!114 &1697799944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697799934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008552a6b72e0448b7dc8f1ee832135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateAmount: {x: 0, y: 0, z: 0}
+  zoomSpeed: 0.1
+--- !u!114 &1697799945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697799934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008552a6b72e0448b7dc8f1ee832135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateAmount: {x: 0, y: 0, z: 0}
+  zoomSpeed: 0.1
+--- !u!114 &1697799946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697799934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0008552a6b72e0448b7dc8f1ee832135, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateAmount: {x: 0, y: 0, z: 0}
+  zoomSpeed: 0.1
 --- !u!1 &1717520675 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6ca7c2a9e2bb4bc4e95a6a4298bc4ea7, type: 3}
@@ -467,6 +514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateAmount: {x: 0, y: 10, z: 0}
+  zoomSpeed: 0.1
 --- !u!114 &1717520677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,6 +528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateAmount: {x: 0, y: 10, z: 0}
+  zoomSpeed: 0.1
 --- !u!1001 &1910174420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -639,6 +688,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -3885988342589118689, guid: 6ca7c2a9e2bb4bc4e95a6a4298bc4ea7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1697799941}
+    - targetCorrespondingSourceObject: {fileID: -3885988342589118689, guid: 6ca7c2a9e2bb4bc4e95a6a4298bc4ea7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1697799946}
+    - targetCorrespondingSourceObject: {fileID: -3885988342589118689, guid: 6ca7c2a9e2bb4bc4e95a6a4298bc4ea7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1697799945}
+    - targetCorrespondingSourceObject: {fileID: -3885988342589118689, guid: 6ca7c2a9e2bb4bc4e95a6a4298bc4ea7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1697799944}
     - targetCorrespondingSourceObject: {fileID: 4395272439425176647, guid: 6ca7c2a9e2bb4bc4e95a6a4298bc4ea7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1910174424}
@@ -674,7 +732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 463607cc3fa8d4e6eb8ee6a99700b297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateAmount: {x: 0, y: 0, z: 0}
 --- !u!114 &1910174424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -687,7 +744,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 463607cc3fa8d4e6eb8ee6a99700b297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateAmount: {x: 0, y: 0, z: 0}
 --- !u!114 &1910174425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,7 +756,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 463607cc3fa8d4e6eb8ee6a99700b297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateAmount: {x: 0, y: 0, z: 0}
 --- !u!114 &1910174426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,7 +768,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 463607cc3fa8d4e6eb8ee6a99700b297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateAmount: {x: 0, y: 0, z: 0}
 --- !u!114 &1910174427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -726,7 +780,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 463607cc3fa8d4e6eb8ee6a99700b297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateAmount: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
