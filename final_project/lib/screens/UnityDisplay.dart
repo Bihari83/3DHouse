@@ -185,7 +185,7 @@ class UnityTestingState extends State<UnityDisplay> {
 
   void setRotationSpeed(String speed) {
     _unityWidgetController.postMessage(
-      'Bambo_House',
+      'Cyprys_House',
       'SetRotationSpeed',
       speed,
     );
