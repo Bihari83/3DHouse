@@ -7,7 +7,7 @@ def resize_image(image, width, height):
     return cv2.resize(image, (width, height))
 
 # Load the input image
-img_rgb = cv2.imread(r'C:\Users\User\Desktop\Model\images\houseplan6.jpg')
+img_rgb = cv2.imread(r'C:\Users\User\Desktop\ComFinal\Model\images\houseplan6.jpg')
 img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
 
 # Define the desired width and height for output images
@@ -16,23 +16,23 @@ output_height = 600
 
 # List of template paths
 template_paths = [
-    r'C:\Users\User\Desktop\Model\images\temp1.jpg',
-    r'C:\Users\User\Desktop\Model\images\temp2.jpg',
-    r'C:\Users\User\Desktop\Model\images\temp3.jpg',
-    r'C:\Users\User\Desktop\Model\images\temp4.jpg',
-    r'C:\Users\User\Desktop\Model\images\temp5.jpg',
-    r'C:\Users\User\Desktop\Model\images\temp6.jpg',
-    r'C:\Users\User\Desktop\Model\images\temp7.jpg',
-    r'C:\Users\User\Desktop\Model\images\temp8.jpg',
-    r'C:\Users\User\Desktop\Model\images\temp9.jpg',
-    r'C:\Users\User\Desktop\Model\images\win1.jpg',
-    r'C:\Users\User\Desktop\Model\images\win2.jpg',
-    r'C:\Users\User\Desktop\Model\images\win3.jpg',
-    r'C:\Users\User\Desktop\Model\images\win4.jpg',
-    r'C:\Users\User\Desktop\Model\images\win5.jpg',
-    r'C:\Users\User\Desktop\Model\images\win6.jpg',
-    r'C:\Users\User\Desktop\Model\images\win7.jpg',
-    r'C:\Users\User\Desktop\Model\images\win8.jpg'
+    r'C:\Users\User\Desktop\ComFinal\Model\images\temp1.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\temp2.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\temp3.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\temp4.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\temp5.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\temp6.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\temp7.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\temp8.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\temp9.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\win1.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\win2.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\win3.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\win4.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\win5.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\win6.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\win7.jpg',
+    r'C:\Users\User\Desktop\ComFinal\Model\images\win8.jpg'
     # Add more template paths as needed
 ]
 
