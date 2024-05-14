@@ -151,7 +151,7 @@ class UnityTestingState extends State<UnityDisplay> {
                       ElevatedButton(
                         onPressed: () {
                           _unityWidgetController.postMessage(
-                            'Cyprys_House',
+                            'Bambo_House',
                             'ZoomIn',
                             '0.1', // Adjust the zoom amount as needed
                           );
@@ -161,7 +161,7 @@ class UnityTestingState extends State<UnityDisplay> {
                       ElevatedButton(
                         onPressed: () {
                           _unityWidgetController.postMessage(
-                            'Cyprys_House',
+                            'Bambo_House',
                             'ZoomOut',
                             '0.1', // Adjust the zoom amount as needed
                           );
@@ -185,7 +185,7 @@ class UnityTestingState extends State<UnityDisplay> {
 
   void setRotationSpeed(String speed) {
     _unityWidgetController.postMessage(
-      'Cyprys_House',
+      'Bambo_House',
       'SetRotationSpeed',
       speed,
     );
